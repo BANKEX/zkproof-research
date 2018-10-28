@@ -1,0 +1,19 @@
+MerkleTree
+Average time: 2.8974355173110964
+Median time: 2.86004638671875
+Minimal time: 2.6906917095184326
+Maximal time: 3.423062562942505
+Average depth: 136.02
+Median depth: 136.0
+Minimal depth: 128
+Maximal depth: 150
+
+MerkleAvlTree
+Average time: 1.327648274898529
+Median time: 1.3043880462646484
+Minimal time: 1.2419345378875732
+Maximal time: 1.55466628074646
+Average depth: 16.0
+Median depth: 16.0
+Minimal depth: 16
+Maximal depth: 16
