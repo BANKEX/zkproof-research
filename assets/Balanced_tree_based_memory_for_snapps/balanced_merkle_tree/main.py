@@ -11,11 +11,11 @@ def test():
     # tree = MerkleTree()
     tree = MerkleAvlTree()
 
-    lst = [randint(1, 10) for _ in range(100)]
+    lst = [randint(1, 100000000000) for _ in range(10)]
     for i in lst:
-        tree.add_leaf(i, i)
+        tree.add(i, i)
 
-    tree.print()
+    print(tree)
 
     print("Depth =", tree.root.depth)
     print("Hash =", tree.root.hash)
@@ -23,7 +23,7 @@ def test():
 
 def statistics(klass):
     count = 10000
-    rng = 100
+    rng = 100000000000
 
     t_delta_lst = []
     depth_lst = []
@@ -33,7 +33,7 @@ def statistics(klass):
         t_begin = time()
         for _ in range(count):
             i = randint(1, rng)
-            tree.add_leaf(i, i)
+            tree.add(i, i)
         t_end = time()
 
         t_delta = t_end - t_begin
