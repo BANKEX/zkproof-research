@@ -1,6 +1,6 @@
 # Ordered balanced Merkle tree for Snapps
 
-Below we will describe a way to reduce a proof size given by a Merkle tree (about Merkle tree: https://en.wikipedia.org/wiki/Merkle_tree). The way is based on a special - balanced approach to build the tree of hashes. The main idea is that keeping a balanced tree of hashes ensures fewer nodes count between the root and any element even in the worst possible case, so that makes a proof shorter. Also, we will provide numerical tests to compare the unbalanced (ordinary) Merkle tree and the balanced one.
+Below we will describe a way to reduce a proof size given by a Merkle tree (about Merkle tree: https://en.wikipedia.org/wiki/Merkle_tree). The way is based on a special - balanced approach to build the tree of hashes. The main idea is that keeping a balanced tree of hashes ensures fewer nodes count between the root and any element even in the worst possible case, so that makes a proof shorter.
 
 ## Merkle trees
 
@@ -66,15 +66,61 @@ At memory defragmentation step we can add or remove cells with zero value and ro
 
 (OBMT rotations image here)
 
-Snapp can be split into two snarks. I represent circuit for defragmentation gadget in pseudocode
+Snapp can be split into two snarks. Then we can combine several execution blocks of the snapp with one defragmentation block.
+
+I represent circuit for defragmentation gadget in pseudocode (unoptimized at the low level, just for demonstration).
 
 ```
-gadget rotate(uint160 from, uint160 to, uint160 leaf, uint160 [MAX_HEIGHT] proof, uint2 rotation, ):
-  
+external constant MAX_HEIGHT
+external constant EMPTY_STEP
 
+struct Rotation
+  uint2 type
+  uint160 [4] nodes
+end
+
+struct Proof
+  uint160 [MAX_HEIGHT] data
+  uint(MAX_HEIGHT) way
+end
+
+struct Item
+  uint160 id
+  uint160 data
+end
+
+
+gadget insertRightAndRotate(Proof proof, uint160 leaf1, uint160 leaf2, Rotation rotation) returns(uint160):
+  let rotationTo := hash(hash(rotation.nodes[1],rotation.nodes[2]), hash(rotation.nodes[3], rotation.nodes[4]))
+  let rotationFrom := case4(
+    rotation.type, 
+    hash(hash(hash(rotation.nodes[1],rotation.nodes[2]), rotation.nodes[3]), rotation.nodes[4]),
+    hash(hash(rotation.nodes[1], hash(rotation.nodes[2], rotation.nodes[3])), rotation.nodes[4]),
+    hash(rotation.nodes[1], hash(hash(rotation.nodes[2], rotation.nodes[3]), rotation.nodes[4])),
+    hash(rotation.nodes[1], hash(rotation.nodes[2], hash(rotation.nodes[3], rotation.nodes[4])))
+  )
+  let top := hash(leaf1, leaf2)
+  for i = MAX_HEIGHT .. 1:
+    let _top := orderedHash(bits(proof.way, i), proof.data[i], top)
+    let __top := rotationTo if _top == rotationFrom else _top
+    let top := top if proof.data[i]==EMPTY_STEP else __top
+  end
+  return top
+end
+
+
+gadget addLeft(uint160 rootFrom, uint160 rootTo, uint160 id, Proof pleft, Item ileft, Proof pright, Item iright, Rotation rotation):
+  constraints pleft.way == pright.way-1
+  constraints merkleProof(pleft, hash(ileft)) == rootFrom
+  constraints merkleProof(pright, hash(iright)) == rootFrom
+  constraints ileft.id < id
+  constraints id < iright.id
+  constraints rootTo == insertRightAndRotate(pleft, hash(ileft), hash(id, uint160(0), rotation)
+end
 
 ```
- 
+
+As we can see, there are 3 Merkle proofs for insertion (and two for deletion). Insertion or deletion of cells is more unusual procedure than reading or writing values inside the snapp. 
 
 
 
