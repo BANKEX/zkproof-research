@@ -68,7 +68,7 @@ At memory defragmentation step we can add or remove cells with zero value and ro
 
 Snapp can be split into two snarks. Then we can combine several execution blocks of the snapp with one defragmentation block.
 
-I represent circuit for defragmentation gadget in pseudocode (unoptimized at the low level, just for demonstration).
+We represent circuit for defragmentation gadget in pseudocode (unoptimized at the low level, just for demonstration).
 
 ```
 external constant MAX_HEIGHT
