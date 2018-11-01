@@ -1,4 +1,8 @@
-# Ordered balanced Merkle tree based memory for Snapps
+# Shorter Merkle proofs for Snapps
+
+[Resembling construction](https://ethresear.ch/t/compact-sparse-merkle-trees/3741) was published by [farazhaider](https://ethresear.ch/u/farazhaider) for plasma. Thank you. 
+
+Let's we represent the way to reduce merkle proofs for Snapps!
 
 Below we will describe a way to reduce a proof size given by a [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree). The way is based on a special - balanced approach to build the tree of hashes. The main idea is that keeping a balanced tree of hashes ensures fewer nodes count between the root and any element even in the worst possible case, so that makes a proof shorter.
 
@@ -121,3 +125,5 @@ As we can see, there are 3 Merkle proofs for insertion (and two for deletion). I
 [snjax](https://ethresear.ch/u/snjax)
 
 [fomalhaut88](https://ethresear.ch/u/fomalhaut88)
+
+
