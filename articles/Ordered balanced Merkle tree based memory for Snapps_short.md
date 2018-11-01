@@ -1,20 +1,19 @@
 # Ordered balanced Merkle tree based memory for Snapps
 
-Below we will describe a way to reduce a proof size given by a Merkle tree (about Merkle tree: https://en.wikipedia.org/wiki/Merkle_tree). The way is based on a special - balanced approach to build the tree of hashes. The main idea is that keeping a balanced tree of hashes ensures fewer nodes count between the root and any element even in the worst possible case, so that makes a proof shorter.
+Below we will describe a way to reduce a proof size given by a [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree). The way is based on a special - balanced approach to build the tree of hashes. The main idea is that keeping a balanced tree of hashes ensures fewer nodes count between the root and any element even in the worst possible case, so that makes a proof shorter.
 
 ## Merkle trees
 
-As a good and allied way to store data in zkSnarks is the sparse Merkle tree (if you are not familiar with it yet, please, read it here: https://medium.com/@kelvinfichter/whats-a-sparse-merkle-tree-acda70aeb837). The main idea of such tree is keeping the nodes for the whole space of all possible values. There are ways to optimize it on the implementation stage, but the proof part (the proof of including) seems to be too long and may take 160 or more hashes that are complicated to deal with.
+As a good and allied way to store data in zkSnarks is a [sparse Merkle tree](https://medium.com/@kelvinfichter/whats-a-sparse-merkle-tree-acda70aeb837). The main idea of such tree is keeping the nodes for the whole space of all possible values. There are ways to optimize it on the implementation stage, but the proof part (the proof of including) seems to be too long and may take 160 or more hashes that are complicated to deal with.
 
 This number can be reduced by choosing a different way to build the Merkle tree. As another possible way, we could choose a simple binary tree. Averagely, it has the depth depending on the number of elements, that is better. But the worst case may be even worse than in sparse Merkle tree with respect to the proof size that is still too expensive in use.
 
-In order to resolve the problem of the worst case, we add balancing to the tree building process. As an approach, we chose AVL tree (see in Wikipedia: https://en.wikipedia.org/wiki/AVL_tree) as one of a possible and quite simple way to implement and use.
+In order to resolve the problem of the worst case, we add balancing to the tree building process. As an approach, we chose an [AVL tree](https://en.wikipedia.org/wiki/AVL_tree) as one of a possible and quite simple way to implement and use.
 
 ## AVL tree approach
 
 AVL tree is a binary tree that changes its structure after adding or removing an element, in order to keep the total depth (the maximal distance between the root and a node) as less as possible. On the picture, there are examples of balanced and unbalanced trees.
 
-(a picture of balanced and unbalanced trees)
 
 In AVL tree the balance is reached by two types of rotations in the nodes. For example, if an element is added (or removed), we check each node in the path to the element for the difference in depths of its left and right sub-trees. If the difference is 2 we make a rotation according to the rules invented and discovered by Adelson-Velsky and Landis (this is why such tree is called AVL). There four types of rotations:
 
