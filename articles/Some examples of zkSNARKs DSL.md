@@ -1,12 +1,16 @@
-# Here are some syntax cases of the developing DSL for zkSNARKS
+# Here are some syntax cases of the developing DSL for zkSNARKs
 
 ### Sum
 ```python
-snark sum(private x, y; public s):  # snark - it's a special sort of functions, it returns nothing, private and public are specifiers for input variables
-    constraint x + y == s  # constraint - it's a keyword to ensure the equity, it can be used in snarks and gadgets as well
+# snark - it's a special sort of functions,
+# it returns nothing, private and public are specifiers for input variables
+snark sum(private x, y; public s):
+    # constraint - it's a keyword to ensure the equity,
+    # it can be used in snarks and gadgets as well
+    constraint x + y == s
 ```
 
-### Square equation
+### Inequity
 ```python
 snark gt(private x; public a):
     # Inequities are allowed in constraint,
@@ -51,7 +55,7 @@ snark mean(private x[N]; public m):
     constraint m == s / N
 ```
 
-### Median
+### Median (approximate implementation)
 ```python
 const N = 10
 
