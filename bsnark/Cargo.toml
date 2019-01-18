@@ -1,0 +1,9 @@
+[package]
+name = "bsnark"
+version = "0.1.0"
+authors = ["alexander <mail@fomalhaut.su>"]
+
+[dependencies]
+rand = "0.4"
+pairing = "0.14"
+bellman = "0.1.0"
