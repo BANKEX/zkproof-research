@@ -1,0 +1,4 @@
+1. Implement 256-bits integer according to interfaces in ff (src/eth_engine/fs.rs)
+2. Implement Ethereum curve (src/eth_engine/curve.rs)
+3. Several tests for bellman snarks, including Ethereum curve
+4. Final interface way to implement and call snarks

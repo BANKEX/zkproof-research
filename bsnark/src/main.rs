@@ -1,8 +1,10 @@
 extern crate rand;
+extern crate ff;
 extern crate pairing;
 extern crate bellman;
 
 mod circuits;
+mod eth_engine;
 // mod snark;
 
 use crate::circuits::prod_circuit::ProdCircuit;
@@ -27,8 +29,13 @@ use bellman::groth16::{
     verify_proof
 };
 
+// use ff::{
+//     PrimeField
+// };
 
-fn main() {
+
+#[allow(dead_code)]
+fn example_prod_circle_snark() {
     // Trusting setup
     let rng = &mut thread_rng();
 
@@ -61,7 +68,6 @@ fn main() {
     // Verifying proof
     assert!(verify_proof(&pvk, &proof, &[c]).unwrap());
 
-
     /* Desirable interface */
     // let snark = Snark::new();
 
@@ -81,4 +87,9 @@ fn main() {
     // c.mul_assign(circuit_custom.b);
     // let verified = snark.verify(vk, proof, vec![c]);
     // assert!(verified).unwrap();
+}
+
+
+fn main() {
+    // example_prod_circle_snark();
 }
