@@ -52,14 +52,14 @@ impl convert::From<Fs> for u64 {
 }
 
 
-impl Field for Fs {
-    // ...
-}
+// impl Field for Fs {
+//     // ...
+// }
 
 
-impl PrimeField for Fs {
-    // ...
-}
+// impl PrimeField for Fs {
+//     // ...
+// }
 
 
 // impl PrimeFieldRepr for Fs {
